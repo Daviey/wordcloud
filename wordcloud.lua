@@ -116,7 +116,7 @@ function wc_table_to_tabular(table_weight)
     return tabular_weight
 end
 
-function wc_build_mp_code(table_weight,maximum,rotation,horizontal_only,aspect,fit_width,fit_height)
+function wc_build_mp_code(table_weight,maximum,rotation,horizontal_only,aspect,fit_width,fit_height,min_scale,max_scale)
     -- optional arguments
     maximum = maximum or 50
     rotation = rotation or 0
@@ -124,6 +124,8 @@ function wc_build_mp_code(table_weight,maximum,rotation,horizontal_only,aspect,f
     aspect = aspect or 1
     fit_width = fit_width or "0pt"
     fit_height = fit_height or "0pt"
+    min_scale = min_scale or 0.7
+    max_scale = max_scale or 2.5
 
     local total_occ = 0
     local tabular_weight = wc_table_to_tabular(table_weight)
@@ -148,10 +150,14 @@ function wc_build_mp_code(table_weight,maximum,rotation,horizontal_only,aspect,f
     local aspect_stmt = "wordcloud_aspect("..tostring(aspect)..");"
     local fit_width_stmt = "wordcloud_fit_width("..tostring(fit_width)..");"
     local fit_height_stmt = "wordcloud_fit_height("..tostring(fit_height)..");"
+    local min_scale_stmt = "wordcloud_min_scale("..tostring(min_scale)..");"
+    local max_scale_stmt = "wordcloud_max_scale("..tostring(max_scale)..");"
     str_mp=str_mp..horizontal_stmt
     str_mp=str_mp..aspect_stmt
     str_mp=str_mp..fit_width_stmt
     str_mp=str_mp..fit_height_stmt
+    str_mp=str_mp..min_scale_stmt
+    str_mp=str_mp..max_scale_stmt
     str_mp=str_mp.."draw_wordcloud(words,weights,"..rotation..","..math.min(maximum,#tabular_weight)..");"
     return str_mp
 end
@@ -191,12 +197,14 @@ function wc_build_color_list(colors)
 end
 
 -- build mp code for the wordcloud of a list given in LaTeX command
-function wc_build_wordcloud(str,rotation,scale,margin,usecolor,colors,horizontal_only,aspect,fit_width,fit_height)
+function wc_build_wordcloud(str,rotation,scale,margin,usecolor,colors,horizontal_only,aspect,fit_width,fit_height,min_scale,max_scale)
     maximum = maximum or 50
     horizontal_only = horizontal_only or "false"
     aspect = aspect or 1
     fit_width = fit_width or "0pt"
     fit_height = fit_height or "0pt"
+    min_scale = min_scale or 0.7
+    max_scale = max_scale or 2.5
     local table = wc_list_to_table(str)
     local lgth_table = wc_size_of_table(table)
     local output
@@ -212,7 +220,7 @@ function wc_build_wordcloud(str,rotation,scale,margin,usecolor,colors,horizontal
     end
     output = output.."set_wordcloud_scale("..scale..");"
     output = output.."set_box_margin("..margin..");"
-    output = output..wc_build_mp_code(table,lgth_table,rotation,horizontal_only,aspect,fit_width,fit_height)
+    output = output..wc_build_mp_code(table,lgth_table,rotation,horizontal_only,aspect,fit_width,fit_height,min_scale,max_scale)
     output = output.."endfig;\\end{mplibcode}"
     tex.sprint(output)
 end
@@ -229,11 +237,13 @@ function wc_build_list_tag(table_weight,number)
 end
 
 -- build mp code for the wordcloud of a file given in LaTeX command
-function wc_build_wordcloud_file(file,number,rotation,scale,margin,usecolor,colors,horizontal_only,aspect,fit_width,fit_height)
+function wc_build_wordcloud_file(file,number,rotation,scale,margin,usecolor,colors,horizontal_only,aspect,fit_width,fit_height,min_scale,max_scale)
     horizontal_only = horizontal_only or "false"
     aspect = aspect or 1
     fit_width = fit_width or "0pt"
     fit_height = fit_height or "0pt"
+    min_scale = min_scale or 0.7
+    max_scale = max_scale or 2.5
     local str = wc_file2string(file)
 
     local words = wc_build_word_table(str)
@@ -253,7 +263,7 @@ function wc_build_wordcloud_file(file,number,rotation,scale,margin,usecolor,colo
     end
     output = output.."set_wordcloud_scale("..scale..");"
     output = output.."set_box_margin("..margin..");"
-    output = output..wc_build_mp_code(table_weight,number,rotation,horizontal_only,aspect,fit_width,fit_height)
+    output = output..wc_build_mp_code(table_weight,number,rotation,horizontal_only,aspect,fit_width,fit_height,min_scale,max_scale)
     output = output.."endfig;\\end{mplibcode}"
     tex.sprint(output)
 end

@@ -32,6 +32,8 @@
 \tl_new:N \g__wc_wordcloud_rotate_tl
 \tl_new:N \g__wc_wordcloud_margin_tl
 \tl_new:N \g__wc_wordcloud_aspect_tl
+\tl_new:N \g__wc_wordcloud_min_scale_tl
+\tl_new:N \g__wc_wordcloud_max_scale_tl
 \dim_new:N \g__wc_wordcloud_fit_width_dim
 \dim_new:N \g__wc_wordcloud_fit_height_dim
 \bool_new:N \g__wc_wordcloud_horizontal_only_bool
@@ -46,6 +48,10 @@
   margin .value_required:n = true,
   aspect .tl_gset:N = \g__wc_wordcloud_aspect_tl,
   aspect .value_required:n = true,
+  min_scale .tl_gset:N = \g__wc_wordcloud_min_scale_tl,
+  min_scale .value_required:n = true,
+  max_scale .tl_gset:N = \g__wc_wordcloud_max_scale_tl,
+  max_scale .value_required:n = true,
   fit_width .dim_gset:N = \g__wc_wordcloud_fit_width_dim,
   fit_width .value_required:n = true,
   fit_height .dim_gset:N = \g__wc_wordcloud_fit_height_dim,
@@ -75,6 +81,8 @@
   \keys_set:nn { wc/wordcloud } { rotate=0 } %
   \keys_set:nn { wc/wordcloud } { margin=0.3pt } %
   \keys_set:nn { wc/wordcloud } { aspect=1 } %
+  \keys_set:nn { wc/wordcloud } { min_scale=0.7 } %
+  \keys_set:nn { wc/wordcloud } { max_scale=2.5 } %
   \keys_set:nn { wc/wordcloud } { fit_width=0pt } %
   \keys_set:nn { wc/wordcloud } { fit_height=0pt } %
   \keys_set:nn { wc/wordcloud } { colors={} } %
@@ -103,7 +111,7 @@
   %\show {coucous}
   \directlua{%
     %tex.sprint("test")
-    wc_build_wordcloud("\luaescapestring{\unexpanded{#2}}",\tl_use:N \g__wc_wordcloud_rotate_tl,\tl_use:N \g__wc_wordcloud_scale_tl,"\tl_use:N \g__wc_wordcloud_margin_tl",\bool_if:NTF \g__wc_wordcloud_usecolor_bool{"true"}{"false"},"\tl_use:N \l_colors_list_tl",\bool_if:NTF \g__wc_wordcloud_horizontal_only_bool{"true"}{"false"},\tl_use:N \g__wc_wordcloud_aspect_tl,"\dim_use:N \g__wc_wordcloud_fit_width_dim","\dim_use:N \g__wc_wordcloud_fit_height_dim")
+    wc_build_wordcloud("\luaescapestring{\unexpanded{#2}}",\tl_use:N \g__wc_wordcloud_rotate_tl,\tl_use:N \g__wc_wordcloud_scale_tl,"\tl_use:N \g__wc_wordcloud_margin_tl",\bool_if:NTF \g__wc_wordcloud_usecolor_bool{"true"}{"false"},"\tl_use:N \l_colors_list_tl",\bool_if:NTF \g__wc_wordcloud_horizontal_only_bool{"true"}{"false"},\tl_use:N \g__wc_wordcloud_aspect_tl,"\dim_use:N \g__wc_wordcloud_fit_width_dim","\dim_use:N \g__wc_wordcloud_fit_height_dim",\tl_use:N \g__wc_wordcloud_min_scale_tl,\tl_use:N \g__wc_wordcloud_max_scale_tl)
   }%
 }
 
