@@ -48,6 +48,25 @@ documentation to add local packages:
 
 * [English documentation](doc/wordcloud-doc-en.pdf)
 
+## Options
+
+The main commands are:
+
+- `\wordcloud[<options>]{<list of words and weights>}`
+- `\wordcloudFile[<options>]{<text file>}{<number of words>}`
+
+Options include:
+
+- `scale=<number>`: wordcloud scaling factor (default `1`)
+- `rotate=<angle>`: rotate words with `+/-<angle>` alternation (default `0`)
+- `horizontal_only` (boolean): force all words to be horizontal (default `false`)
+- `margin=<dimension>`: add margin around words (default `0.3pt`)
+- `usecolor` (boolean): enable colors (default `false`)
+- `colors={...}`: list of LaTeX colors used when `usecolor=true`
+
+Note: historically, `rotate=0` can still yield some vertical words due to the
+alternating rotation algorithm. Use `horizontal_only` to force horizontal text.
+
 ## Contact
 
 Maxime Chupin, `notezik(at)gmail.com`

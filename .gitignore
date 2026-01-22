@@ -198,6 +198,9 @@ pythontex-files-*/
 # tcolorbox
 *.listing
 
+# Local test artifact
+test-horizontal-only.pdf
+
 # thmtools
 *.loe
 
