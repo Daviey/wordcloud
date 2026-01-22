@@ -457,6 +457,10 @@ rotate=⟨angle⟩: to rotate (degrees) the words with ±⟨angle⟩ alternative
 (default 0) ;
 aspect=⟨number⟩: to adjust the placement aspect ratio. Values > 1 tend to produce
  a taller cloud; values < 1 tend to produce a wider cloud (default 1) ;
+fit_width=⟨dimension⟩: to scale the final output so it fits within the given width
+ (default 0pt, disabled) ;
+fit_height=⟨dimension⟩: to scale the final output so it fits within the given height
+ (default 0pt, disabled) ;
 horizontal_only: to force all words to be horizontal (boolean, default false) ;
 usecolor: to use color for word drawing (boolean, default false) as described in section 2.3.1 ;
 colors=⟨list of colors⟩: to define a new set of colors as described in section 2.3.15 .

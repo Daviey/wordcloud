@@ -61,6 +61,8 @@ Options include:
 - `rotate=<angle>`: rotate words with `+/-<angle>` alternation (default `0`)
 - `horizontal_only` (boolean): force all words to be horizontal (default `false`)
 - `aspect=<number>`: adjust placement aspect ratio; `> 1` tends taller, `< 1` tends wider (default `1`)
+- `fit_width=<dimension>`: scale output to fit within width (default `0pt`, disabled)
+- `fit_height=<dimension>`: scale output to fit within height (default `0pt`, disabled)
 - `margin=<dimension>`: add margin around words (default `0.3pt`)
 - `usecolor` (boolean): enable colors (default `false`)
 - `colors={...}`: list of LaTeX colors used when `usecolor=true`

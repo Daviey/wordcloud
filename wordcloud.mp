@@ -279,6 +279,20 @@ def wordcloud_horizontal_only(expr b)=
   _wordcloud_horizontal_only:=b;
 enddef;
 
+%%% output fitting (optional)
+numeric _wordcloud_fit_width;
+numeric _wordcloud_fit_height;
+_wordcloud_fit_width:=0pt;
+_wordcloud_fit_height:=0pt;
+
+def wordcloud_fit_width(expr w)=
+  _wordcloud_fit_width:=w;
+enddef;
+
+def wordcloud_fit_height(expr h)=
+  _wordcloud_fit_height:=h;
+enddef;
+
 numeric wordcloud_colors_number;
 color wordcloud_colors[];
 
@@ -354,6 +368,62 @@ vardef draw_wordcloud(suffix _words, _weights, rotation)(expr _N)=
     _wordcloud_pathwords[i]:=_wordcloud_pathwords[i] rotated (_wordcloud_rotation(rotation,_rotation_bool)) shifted
     (_position_pt + _random_pt);    
   endfor;
+
+  % Optional: scale/shift the final output to fit within a target rectangle.
+  % This happens after placement, so it won't affect collision detection.
+  if (_wordcloud_fit_width>0) or (_wordcloud_fit_height>0):
+    save _bb, _bbox_old, _cw, _ch, _sx, _sy, _s, _dx, _dy;
+    path _bb;
+    numeric _cw, _ch, _sx, _sy, _s, _dx, _dy;
+    _bbox_old:=bboxmargin;
+    bboxmargin:=0pt;
+    _bb:=bbox currentpicture;
+    _cw:=xpart urcorner _bb - xpart llcorner _bb;
+    _ch:=ypart urcorner _bb - ypart llcorner _bb;
+    if (_cw>0) and (_ch>0):
+      _sx:=0;
+      _sy:=0;
+      if _wordcloud_fit_width>0:
+        _sx:=_wordcloud_fit_width/_cw;
+      fi
+      if _wordcloud_fit_height>0:
+        _sy:=_wordcloud_fit_height/_ch;
+      fi
+      % Use min of positive scales, or 1 if both are zero (no constraint)
+      if (_sx>0) and (_sy>0):
+        if _sx<_sy:
+          _s:=_sx;
+        else:
+          _s:=_sy;
+        fi
+      elseif _sx>0:
+        _s:=_sx;
+      elseif _sy>0:
+        _s:=_sy;
+      else:
+        _s:=1;
+      fi
+
+      currentpicture:=currentpicture scaled _s;
+
+      % Move to origin so TeX box is stable.
+      _bb:=bbox currentpicture;
+      currentpicture:=currentpicture shifted (-xpart llcorner _bb, -ypart llcorner _bb);
+
+      % If both width and height are provided, center within the target and set
+      % bounds so TeX sees the requested box size.
+      if (_wordcloud_fit_width>0) and (_wordcloud_fit_height>0):
+        _bb:=bbox currentpicture;
+        _cw:=xpart urcorner _bb - xpart llcorner _bb;
+        _ch:=ypart urcorner _bb - ypart llcorner _bb;
+        _dx:=(_wordcloud_fit_width-_cw)/2;
+        _dy:=(_wordcloud_fit_height-_ch)/2;
+        currentpicture:=currentpicture shifted (_dx,_dy);
+        setbounds currentpicture to ((0,0)--(_wordcloud_fit_width,0)--(_wordcloud_fit_width,_wordcloud_fit_height)--(0,_wordcloud_fit_height)--cycle);
+      fi
+    fi
+    bboxmargin:=_bbox_old;
+  fi
 enddef;
 
 
