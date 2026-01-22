@@ -215,18 +215,30 @@ vardef Arccosd(expr x)=  Arctand((sqrt(1-x**2))/x)enddef;
 
 % general scaling
 _wordcloud_gen_scale:=1;
+numeric _wordcloud_min_scale;
+numeric _wordcloud_max_scale;
+_wordcloud_min_scale:=0.7;
+_wordcloud_max_scale:=2.5;
 
 def set_wordcloud_scale(expr s)=
   _wordcloud_gen_scale:=s;
 enddef;
 
+def wordcloud_min_scale(expr s)=
+  _wordcloud_min_scale:=s;
+enddef;
+
+def wordcloud_max_scale(expr s)=
+  _wordcloud_max_scale:=s;
+enddef;
+
 % fonction d'agrandissement en fonction du poids du mot
 vardef _wordcloud_scale_fct(expr e,_max,_min)=
   save _t,_N,_a,_b;
-  _a*_min+_b=0.7;
-  _a*_max+_b=2.5;
+  _a*_min+_b=_wordcloud_min_scale;
+  _a*_max+_b=_wordcloud_max_scale;
   _t:=_a*e+_b;
-  _t:=ln(_t)-ln(0.7)+0.295;
+  _t:=ln(_t)-ln(_wordcloud_min_scale)+0.295;
   _wordcloud_gen_scale*(1.1*_t)
 enddef;
 
