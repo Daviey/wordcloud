@@ -149,20 +149,34 @@ enddef;
 % build the spiral to put words
 path _wordcloud_spiral;
 
-_wordcloud_spiral:=(0,0);
+numeric _wordcloud_spiral_xscale, _wordcloud_spiral_yscale;
+_wordcloud_spiral_xscale:=1;
+_wordcloud_spiral_yscale:=1;
 
-_wordcloud_N:= 10*360;
-_tours:=20;
-_scale:=0.3;
-for j:=1 upto _tours:
-  _rapj:=j/_tours;
-  for i:=1 step 10 until 360:
-    _rapi:=((i)+(j)*360)/360;
-    %show (_rapj*_rapi);
-    %show (6*_rapj*_rapi)*(cosd(i)*1cm,sind(i)*1cm);
-    _wordcloud_spiral:=_wordcloud_spiral--((_scale*_rapi)*(cosd(i)*1cm,sind(i)*1cm));
+% Set the aspect ratio of the placement spiral.
+% Values > 1 make the cloud tend taller; values < 1 make it tend wider.
+def wordcloud_aspect(expr r)=
+  _wordcloud_spiral_xscale:=1;
+  _wordcloud_spiral_yscale:=r;
+enddef;
+
+def _wordcloud_build_spiral=
+  _wordcloud_spiral:=(0,0);
+
+  _wordcloud_N:=10*360;
+  _tours:=20;
+  _scale:=0.3;
+  for j:=1 upto _tours:
+    _rapj:=j/_tours;
+    for i:=1 step 10 until 360:
+      _rapi:=((i)+(j)*360)/360;
+      _wordcloud_spiral:=_wordcloud_spiral--((_scale*_rapi)*(
+        cosd(i)*_wordcloud_spiral_xscale*1cm,
+        sind(i)*_wordcloud_spiral_yscale*1cm
+      ));
+    endfor;
   endfor;
-endfor
+enddef;
 
 picture _wordcloud_words[], _wordcloud_pathwords[];
 path _wordcloud_words_oriented_bb[];
@@ -288,6 +302,7 @@ vardef draw_wordcloud(suffix _words, _weights, rotation)(expr _N)=
   boolean _ok_draw;
   _position:=0;
   _build_tabs(_words,_weights,_N);
+  _wordcloud_build_spiral;
   for i=1 upto _N:
     %show i;
     _position:=0;
