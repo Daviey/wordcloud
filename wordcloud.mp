@@ -409,18 +409,6 @@ vardef draw_wordcloud(suffix _words, _weights, rotation)(expr _N)=
       % Move to origin so TeX box is stable.
       _bb:=bbox currentpicture;
       currentpicture:=currentpicture shifted (-xpart llcorner _bb, -ypart llcorner _bb);
-
-      % If both width and height are provided, center within the target and set
-      % bounds so TeX sees the requested box size.
-      if (_wordcloud_fit_width>0) and (_wordcloud_fit_height>0):
-        _bb:=bbox currentpicture;
-        _cw:=xpart urcorner _bb - xpart llcorner _bb;
-        _ch:=ypart urcorner _bb - ypart llcorner _bb;
-        _dx:=(_wordcloud_fit_width-_cw)/2;
-        _dy:=(_wordcloud_fit_height-_ch)/2;
-        currentpicture:=currentpicture shifted (_dx,_dy);
-        setbounds currentpicture to ((0,0)--(_wordcloud_fit_width,0)--(_wordcloud_fit_width,_wordcloud_fit_height)--(0,_wordcloud_fit_height)--cycle);
-      fi
     fi
     bboxmargin:=_bbox_old;
   fi
