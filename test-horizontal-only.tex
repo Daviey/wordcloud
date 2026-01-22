@@ -1,0 +1,16 @@
+\documentclass{article}
+\usepackage[margin=2cm]{geometry}
+\usepackage{xcolor}
+\usepackage{wordcloud}
+
+\begin{document}
+
+\section*{Wordcloud: rotate=0 (baseline)}
+\wordcloud[scale=1,rotate=0]{(Security,30);(Linux,25);(Cloud,20);(Python,15)}
+
+\vspace{2cm}
+
+\section*{Wordcloud: rotate=0 + horizontal\_only=true}
+\wordcloud[scale=1,rotate=0,horizontal_only=true]{(Security,30);(Linux,25);(Cloud,20);(Python,15)}
+
+\end{document}

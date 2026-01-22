@@ -31,6 +31,7 @@
 \tl_new:N \g__wc_wordcloud_scale_tl
 \tl_new:N \g__wc_wordcloud_rotate_tl
 \tl_new:N \g__wc_wordcloud_margin_tl
+\bool_new:N \g__wc_wordcloud_horizontal_only_bool
 
 % definitions des clés/valeurs pour la commande \wordcloud
 \keys_define:nn{wc/wordcloud}{%
@@ -40,6 +41,7 @@
   rotate .value_required:n = true,
   margin .tl_gset:N = \g__wc_wordcloud_margin_tl,
   margin .value_required:n = true,
+  horizontal_only .bool_set:N = \g__wc_wordcloud_horizontal_only_bool,
   usecolor .bool_set:N = \g__wc_wordcloud_usecolor_bool,
   colors .clist_set:N = \g__wc_wordcloud_colors_clist, % list of LaTeX colors
   colors .value_required:n = true,
@@ -65,6 +67,7 @@
   \keys_set:nn { wc/wordcloud } { margin=0.3pt } %
   \keys_set:nn { wc/wordcloud } { colors={} } %
   \keys_set:nn { wc/wordcloud } { usecolor=false } %
+  \keys_set:nn { wc/wordcloud } { horizontal_only=false } %
 
   \tl_clear:N \l_colors_list_tl%
   \IfNoValueF {#1}
@@ -88,7 +91,7 @@
   %\show {coucous}
   \directlua{%
     %tex.sprint("test")
-    wc_build_wordcloud("\luaescapestring{\unexpanded{#2}}",\tl_use:N \g__wc_wordcloud_rotate_tl,\tl_use:N \g__wc_wordcloud_scale_tl,"\tl_use:N \g__wc_wordcloud_margin_tl",\bool_if:NTF \g__wc_wordcloud_usecolor_bool{"true"}{"false"},"\tl_use:N \l_colors_list_tl")
+    wc_build_wordcloud("\luaescapestring{\unexpanded{#2}}",\tl_use:N \g__wc_wordcloud_rotate_tl,\tl_use:N \g__wc_wordcloud_scale_tl,"\tl_use:N \g__wc_wordcloud_margin_tl",\bool_if:NTF \g__wc_wordcloud_usecolor_bool{"true"}{"false"},"\tl_use:N \l_colors_list_tl",\bool_if:NTF \g__wc_wordcloud_horizontal_only_bool{"true"}{"false"})
   }%
 }
 
@@ -110,6 +113,7 @@
   \keys_set:nn { wc/wordcloud } { margin=0.3pt } %
   \keys_set:nn { wc/wordcloud } { colors={} } %
   \keys_set:nn { wc/wordcloud } { usecolor=false } %
+  \keys_set:nn { wc/wordcloud } { horizontal_only=false } %
   \tl_clear:N \l_colors_list_tl%
 
   \IfNoValueF {#1}
@@ -131,7 +135,7 @@
 
   %\show {coucous}
   \directlua{%
-    wc_build_wordcloud_file("#2",#3,\tl_use:N \g__wc_wordcloud_rotate_tl,\tl_use:N \g__wc_wordcloud_scale_tl,"\tl_use:N \g__wc_wordcloud_margin_tl",\bool_if:NTF \g__wc_wordcloud_usecolor_bool{"true"}{"false"},"\tl_use:N \l_colors_list_tl")
+    wc_build_wordcloud_file("#2",#3,\tl_use:N \g__wc_wordcloud_rotate_tl,\tl_use:N \g__wc_wordcloud_scale_tl,"\tl_use:N \g__wc_wordcloud_margin_tl",\bool_if:NTF \g__wc_wordcloud_usecolor_bool{"true"}{"false"},"\tl_use:N \l_colors_list_tl",\bool_if:NTF \g__wc_wordcloud_horizontal_only_bool{"true"}{"false"})
   }%
 }
 

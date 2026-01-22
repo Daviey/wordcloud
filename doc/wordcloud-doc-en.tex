@@ -39,7 +39,7 @@
 \noindent
 {\Large  drawing wordclouds \\[0.2cm]with \hologo{METAPOST} and Lua}\\[3cm]
 \parbox{0.6\textwidth}{
-  \wordcloud[scale=2,rotate=0,margin=0.5pt,usecolor]{(Wordcloud,10);(\hologo{METAPOST},6);(\LaTeX,7);(Lua,4);(algorithm,3);(code,2);(mathematics,2);(CTAN,2);(mplib,4);(\hologo{LuaTeX},4);(latexmp,3);(graphism,2)}
+\wordcloud[scale=2,rotate=0,horizontal_only,margin=0.5pt,usecolor]{(Wordcloud,10);(\hologo{METAPOST},6);(\LaTeX,7);(Lua,4);(algorithm,3);(code,2);(mathematics,2);(CTAN,2);(mplib,4);(\hologo{LuaTeX},4);(latexmp,3);(graphism,2)}
 }\hfill
 \parbox{0.5\textwidth}{\Large\raggedleft
   \textbf{Contributor}\\
@@ -347,6 +347,9 @@ have the same options:
   (default \lstinline+0.3pt+) ;
   \item[\texttt{rotate=}\meta{angle}:] to rotate (degrees) the words with
   $\pm$\meta{angle} alternatively (default 0) ;
+  \item[\texttt{horizontal\_only}:] to force all words to be horizontal (boolean,
+  default \lstinline+false+). When enabled, per-word alternating rotation is
+  disabled ;
   \item[\texttt{usecolor}:] to use color for word drawing (boolean, default
   \lstinline+false+) as described in section~\ref{sec:colors} ;
   \item[\texttt{colors=}\meta{list of colors}:] to define a new

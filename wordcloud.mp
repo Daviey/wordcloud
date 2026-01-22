@@ -237,13 +237,17 @@ enddef;
 def _wordcloud_rotation(expr a,b)=
 % a: angle 
 % b: 0 or 1
-  if b=0:
-    a
+  if _wordcloud_horizontal_only:
+    0
   else:
-    if(a=0):
-      90
+    if b=0:
+      a
     else:
-      -a
+      if(a=0):
+        90
+      else:
+        -a
+      fi
     fi
   fi
 enddef;
@@ -251,6 +255,15 @@ enddef;
 %%% colors
 boolean _wordcloud_use_color;
 _wordcloud_use_color:=false;
+
+%%% rotation control
+boolean _wordcloud_horizontal_only;
+_wordcloud_horizontal_only:=false;
+
+%%% horizontal only
+def wordcloud_horizontal_only(expr b)=
+  _wordcloud_horizontal_only:=b;
+enddef;
 
 numeric wordcloud_colors_number;
 color wordcloud_colors[];
@@ -464,4 +477,3 @@ vardef rectangles_intersection(expr tic,tac)=
   endfor;
   not _output
 enddef;
-
